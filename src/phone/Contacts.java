@@ -25,5 +25,4 @@ class Contacts extends MobilePhone {
     void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 }
