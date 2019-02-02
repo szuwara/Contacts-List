@@ -8,7 +8,6 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static MobilePhone phone = new MobilePhone();
 
-
     public static void main(String[] args) {
 
         boolean isTimeToCloseProgram = false;
@@ -71,17 +70,25 @@ public class Main {
     }
 
     private static void printContacts() {
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nContacts list:");
         phone.listAllContacts();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     private static void addContact() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nCreating a new contact...\nType a name:");
         String name = scanner.nextLine();
         name = capitilizeFirstLetter(name);
-        System.out.println("Type a phone number");
-        String number = scanner.nextLine();
-        phone.addContactToList(MobilePhone.createContact(name, number));
-        System.out.println("Contact created and added successfully!\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        if (!phone.entryExists(name)) {
+            System.out.println("Type a phone number");
+            String number = scanner.nextLine();
+            Contacts contact = (MobilePhone.createContact(name, number));
+            phone.addContactToList(contact);
+        } else {
+            System.out.println("Contact of a name " + name + " already exists!\n" +
+                    "Contact not added to the phone book!");
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     private static void updateContact() {
@@ -92,15 +99,21 @@ public class Main {
             System.out.println("Type new name:");
             String newName = scanner.nextLine();
             newName = capitilizeFirstLetter(newName);
-            System.out.println("Type new number or leave previous:");
-            String newNumber = scanner.nextLine();
-            if (newNumber.equals("")) {
-                phone.updateEntry(oldName, newName);
+            if (!phone.entryExists(newName)) {
+                System.out.println("Type new number or leave previous:");
+                String newNumber = scanner.nextLine();
+                if (newNumber.equals("")) {
+                    phone.updateEntry(oldName, newName);
+                } else {
+                    phone.updateEntry(oldName, newName, newNumber);
+                }
+                System.out.println("Contact updated successfully!");
             } else {
-                phone.updateEntry(oldName, newName, newNumber);
+                System.out.println("New name You chosen is already on the phone book!");
+                System.out.println("Contact not updated!");
             }
-            System.out.println("Contact updated successfully!\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     private static void findContact() {
@@ -116,6 +129,7 @@ public class Main {
         String nameToRemove = scanner.nextLine();
         nameToRemove = capitilizeFirstLetter(nameToRemove);
         phone.removeEntry(nameToRemove);
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     static String capitilizeFirstLetter(String input) {

@@ -7,8 +7,8 @@ class MobilePhone {
     private static ArrayList<Contacts> phoneBook = new ArrayList<>();
 
     void listAllContacts() {
+
         int index = 0;
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nContacts list:");
         for (Contacts contact :
                 phoneBook) {
             System.out.println("Contact " + (index + 1) + ": " + contact.getContactName() + " (" + contact.getPhoneNumber() + ")");
@@ -17,7 +17,6 @@ class MobilePhone {
         if (phoneBook.isEmpty()) {
             System.out.println("Contacts list is empty!");
         }
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     static Contacts createContact(String name, String phoneNumber) {
@@ -26,6 +25,7 @@ class MobilePhone {
 
     void addContactToList(Contacts contact) {
         phoneBook.add(contact);
+        System.out.println("Contact created and added successfully!");
     }
 
     Contacts findContactByName(String name) {
@@ -53,9 +53,9 @@ class MobilePhone {
         Contacts contactToRemove = findContactByNameWithoutPrintOut(name);
         if (contactToRemove != null) {
             phoneBook.remove(contactToRemove);
-            System.out.println("Contact removed successfully!\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("Contact removed successfully!");
         } else {
-            System.out.println("Contact cannot be found!\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("Contact cannot be found!");
         }
     }
 
@@ -64,8 +64,6 @@ class MobilePhone {
         if (contactToUpdate != null) {
             contactToUpdate.setContactName(newName);
             contactToUpdate.setPhoneNumber(newNumber);
-        } else {
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
     }
 
@@ -73,11 +71,11 @@ class MobilePhone {
         Contacts contactToUpdate = findContactByNameWithoutPrintOut(oldName);
         if (contactToUpdate != null) {
             contactToUpdate.setContactName(newName);
-        } else {
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
     }
-}
 
-//TODO addContact method - add functionality that checks if contact already exists in phoneBook and the not add it (maybe boolean method)
-//TODO updateEntry - add functionality that checks if newName of updating contact exists in list and then not allow to update it
+    boolean entryExists(String name) {
+        Contacts foundContact = findContactByNameWithoutPrintOut(name);
+        return phoneBook.contains(foundContact);
+    }
+}
